@@ -30,10 +30,28 @@
   }
 }
 
+@keyframes scanline {
+  0% {
+    top: 0%;
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0.8;
+  }
+}
+
 .glow-alert {
   animation: pulse-glow 2s infinite ease-in-out;
 }
 
 .glow-zombie {
   animation: pulse-zombie 1.5s infinite ease-in-out;
+}
+
+.animate-scanline {
+  animation: scanline 2.5s ease-in-out infinite alternate;
 }

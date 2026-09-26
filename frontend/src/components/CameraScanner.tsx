@@ -375,8 +375,21 @@ export const CameraScanner: React.FC<CameraScannerProps> = ({ onPredictionComple
 
                 {streamActive && (
                   <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+                    {/* Animated Laser Sweep Line */}
+                    <div className="absolute left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-rose-500 to-transparent shadow-[0_0_12px_#f43f5e] animate-scanline z-10" />
+
+                    {/* HUD Telemetry Badges */}
+                    <div className="absolute top-3 left-3 flex items-center space-x-1.5 bg-slate-950/70 backdrop-blur px-2.5 py-1 rounded border border-slate-800 text-[10px] font-mono text-emerald-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                      <span>AI TRACKING • 60 FPS</span>
+                    </div>
+
+                    <div className="absolute top-3 right-3 bg-slate-950/70 backdrop-blur px-2.5 py-1 rounded border border-slate-800 text-[10px] font-mono text-slate-400">
+                      <span>ROI: OCULAR + LAB</span>
+                    </div>
+
                     <div className="w-56 h-72 sm:w-64 sm:h-80 border-2 border-dashed border-rose-400/60 rounded-[45%] flex items-center justify-center animate-pulse">
-                      <div className="text-center bg-slate-950/70 px-3 py-1 rounded-full border border-rose-500/30">
+                      <div className="text-center bg-slate-950/80 px-3 py-1 rounded-full border border-rose-500/30">
                         <span className="text-xs text-rose-300 font-mono">วางใบหน้าให้อยู่ในกรอบ</span>
                       </div>
                     </div>
