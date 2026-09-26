@@ -374,6 +374,89 @@ def predict_v2_temporal(data: TemporalFeaturesV2Input):
         benchmark_metrics=v2_artifact.get('benchmark_metrics')
     )
 
+# ======================================================================
+# 🗄️ SQLITE DATABASE LOGGING (INTEROPERABLE WITH BUN SQLITE)
+# ======================================================================
+import sqlite3
+
+DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", "fatigue_history.db"))
+
+def get_db():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+class FatigueLogCreate(BaseModel):
+    session_id: str
+    eye_openness: Optional[float] = 0.5
+    eye_aspect_ratio: float
+    mouth_aspect_ratio: float
+    under_eye_darkness_ratio: float
+    skin_texture_var: Optional[float] = 0.5
+    lighting_condition: Optional[str] = "Well-Lit"
+    time_slot: str
+    fatigue_score: float
+    fatigue_level: str
+    ground_truth_feedback: Optional[str] = None
+    user_notes: Optional[str] = None
+
+class FeedbackUpdate(BaseModel):
+    ground_truth_feedback: str
+    user_notes: Optional[str] = None
+
+@app.get("/api/v1/logs")
+def get_logs(limit: int = 100):
+    try:
+        if not os.path.exists(DB_PATH):
+            return []
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM fatigue_logs ORDER BY created_at DESC LIMIT ?", (limit,))
+            return [dict(r) for r in cursor.fetchall()]
+    except Exception as e:
+        return []
+
+@app.post("/api/v1/logs")
+def create_log(log: FatigueLogCreate):
+    try:
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO fatigue_logs (
+                    session_id, eye_openness, eye_aspect_ratio, mouth_aspect_ratio,
+                    under_eye_darkness_ratio, skin_texture_var, lighting_condition,
+                    time_slot, fatigue_score, fatigue_level, ground_truth_feedback, user_notes, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', 'localtime'))
+            """, (
+                log.session_id, log.eye_openness, log.eye_aspect_ratio, log.mouth_aspect_ratio,
+                log.under_eye_darkness_ratio, log.skin_texture_var, log.lighting_condition,
+                log.time_slot, log.fatigue_score, log.fatigue_level, log.ground_truth_feedback, log.user_notes
+            ))
+            conn.commit()
+            new_id = cursor.lastrowid
+            cursor.execute("SELECT * FROM fatigue_logs WHERE id = ?", (new_id,))
+            row = cursor.fetchone()
+            return dict(row) if row else {"id": new_id}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.put("/api/v1/logs/{log_id}/feedback")
+@app.post("/api/v1/logs/{log_id}/feedback")
+def update_feedback(log_id: int, feedback: FeedbackUpdate):
+    try:
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                UPDATE fatigue_logs
+                SET ground_truth_feedback = ?, user_notes = COALESCE(?, user_notes)
+                WHERE id = ?
+            """, (feedback.ground_truth_feedback, feedback.user_notes, log_id))
+            conn.commit()
+            return {"status": "success", "updated_id": log_id}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=7860)
+

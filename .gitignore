@@ -9,3 +9,6 @@ frontend/dist/
 .env.local
 *.log
 cloudflared.exe
+*.db
+*.db-wal
+*.db-shm

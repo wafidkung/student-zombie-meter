@@ -158,7 +158,7 @@ export const CircadianDashboard: React.FC = () => {
             <Users className="w-4 h-4 text-blue-400" />
           </div>
           <div className="text-2xl font-bold text-white">{totalScans}</div>
-          <span className="text-[11px] text-slate-500">บันทึกบน Supabase / Storage</span>
+          <span className="text-[11px] text-emerald-400 font-medium">🗄️ บันทึกบน Bun SQLite / Cloud</span>
         </div>
 
         <div className="bg-slate-900/80 p-4 rounded-xl border border-slate-800">
@@ -289,8 +289,8 @@ export const CircadianDashboard: React.FC = () => {
           </div>
 
           <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400 flex items-center justify-between">
-            <span>💡 ข้อมูลอัปเดตแบบเรียลไทม์ผ่าน WebSocket / Supabase REST</span>
-            <span className="font-mono text-emerald-400">STATUS: SYNCED</span>
+            <span>💡 ข้อมูลเชื่อมโยงกับฐานข้อมูล SQL (bun:sqlite) ในเครื่องโดยตรง และสำรองบน Supabase Cloud</span>
+            <span className="font-mono text-emerald-400">STATUS: SQL SYNCED</span>
           </div>
         </div>
       </div>
