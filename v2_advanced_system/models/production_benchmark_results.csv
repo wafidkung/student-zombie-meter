@@ -1,0 +1,6 @@
+Algorithm,Test Accuracy,Macro F1,Weighted F1,Class 3 Recall (Critical),5-Fold CV F1,Latency (ms/sample),Model Size (KB)
+Multinomial Logistic Regression,0.9825,0.9826,0.9826,1.0,0.9881 ± 0.0050,0.017,2.2
+Support Vector Machine (RBF),0.9925,0.9925,0.9925,1.0,0.9931 ± 0.0046,0.031,25.1
+Random Forest (Bagging Ensemble),0.9975,0.9975,0.9975,1.0,0.9894 ± 0.0043,0.069,649.6
+HistGradientBoosting (SOTA Boosting),0.99,0.99,0.99,1.0,0.9906 ± 0.0044,0.273,652.9
+Neural Network (Multi-Layer Perceptron),0.9975,0.9975,0.9975,1.0,0.9925 ± 0.0042,0.043,75.0

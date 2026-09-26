@@ -1,0 +1,2 @@
+ear_mean,ear_std,perclos_score,blink_rate_bpm,yawn_frequency,head_tilt_deg,under_eye_darkness_ratio,skin_texture_var,True_Level,Predicted_Level
+0.2687,0.0909,0.1608,36.79,1,18.33,0.786,0.3824,2,1

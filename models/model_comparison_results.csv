@@ -1,0 +1,4 @@
+Model,Train Accuracy,Test Accuracy,Precision,Recall,F1-Score,ROC-AUC,5-Fold CV F1
+Logistic Regression (Tuned),0.9692,0.99,0.9933,0.9868,0.99,0.9946,0.9675 ± 0.0095
+Support Vector Machine (Tuned),0.9733,0.9867,0.9933,0.9801,0.9867,0.9929,0.9693 ± 0.0105
+Random Forest (Tuned),0.9733,0.9833,0.9867,0.9801,0.9834,0.994,0.9694 ± 0.0073
