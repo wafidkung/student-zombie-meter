@@ -10,6 +10,6 @@ start "Zombie Meter API" cmd /k "cd /d "%~dp0backend_hf" && python -m uvicorn ma
 
 echo [2/2] กำลังเริ่ม Bun React Frontend (Port 5173)...
 cd /d "%~dp0frontend"
-bun run dev --open
+bun run dev --host --open
 
 pause

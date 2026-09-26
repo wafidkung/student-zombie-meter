@@ -2,15 +2,15 @@
 chcp 65001 > nul
 cls
 echo ======================================================================
-echo    STARTING SECURE HTTPS TUNNEL FOR IPAD / MOBILE CAMERA ACCESS
+echo    STARTING PUBLIC HTTPS TUNNEL FOR STUDENT ZOMBIE METER
 echo ======================================================================
 echo.
-echo [INFO] ระบบนี้จะสร้างลิงก์ HTTPS ชั่วคราว เพื่อให้ iPad และมือถือเปิดกล้องได้
-echo [INFO] กรุณารัน run_server.bat ในหน้าต่างอื่นก่อนเปิดไฟล์นี้
+echo [INFO] ระบบจะสร้างลิงก์ HTTPS สาธารณะ เพื่อให้คนอื่น/iPad/มือถือเปิดกล้องได้
+echo [INFO] กรุณารัน run_app_bun.bat ในหน้าต่างอื่นก่อนเปิดไฟล์นี้
 echo.
-echo กำลังเชื่อมต่อท่อส่งสัญญาณ HTTPS...
+echo กำลังเชื่อมต่อท่อส่งสัญญาณ HTTPS สำหรับพอร์ต 5173...
 echo.
 
-npx localtunnel --port 8501
+npx localtunnel --port 5173
 
 pause

@@ -150,7 +150,7 @@ export const CameraScanner: React.FC<CameraScannerProps> = ({ onPredictionComple
 
   const handleCaptureAndAnalyze = async () => {
     setIsAnalyzing(true);
-    const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:7860';
+    const backendUrl = import.meta.env.VITE_API_URL || '';
 
     try {
       let predictionResult: PredictionResult;
