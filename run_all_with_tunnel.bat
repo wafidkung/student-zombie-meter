@@ -13,6 +13,8 @@ start "Zombie Meter AI [FastAPI]" cmd /k "cd /d "%~dp0backend_hf" && python -m u
 echo [2/3] กำลังสตาร์ท Bun SQL Server & Gateway (Port 3000)...
 start "Zombie Meter SQL Gateway [Bun]" cmd /k "cd /d "%~dp0" && bun run backend_bun/server.ts"
 
+timeout /t 3 /nobreak >nul
+
 echo [3/3] กำลังเชื่อมต่อ Cloudflare HTTPS Public Tunnel...
 echo.
 echo ======================================================================
@@ -22,6 +24,6 @@ echo    สามารถก็อปลิงก์ส่งให้เพื
 echo ======================================================================
 echo.
 
-"%~dp0cloudflared.exe" tunnel --url http://localhost:3000
+"%~dp0cloudflared.exe" tunnel --url http://127.0.0.1:3000
 
 pause
