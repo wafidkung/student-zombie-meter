@@ -2,13 +2,18 @@
 chcp 65001 > nul
 cls
 echo ======================================================================
-echo    STARTING DIRECT CLOUDFLARE HTTPS TUNNEL (NO WARNING / NO IP PROMPT)
+echo    🌐 CLOUDFLARE PUBLIC HTTPS TUNNEL (สำหรับคนละ Wi-Fi / เน็ตมือถือ 4G/5G)
 echo ======================================================================
 echo.
-echo [INFO] กำลังสร้างท่อส่งสัญญาณ HTTPS ผ่าน Cloudflare Tunnel...
-echo [INFO] ลิงก์ที่ได้จะเข้าหน้าเว็บได้ทันที 100%% โดยไม่มีหน้าถาม IP มากวนใจ!
+echo [INFO] กำลังเชื่อมต่อท่อสัญญาณ Cloudflare Tunnel สู่เซิร์ฟเวอร์บนเครื่องคุณ...
+echo [✓] ใช้งานได้จากทุกที่ทั่วโลก (ข้าม Wi-Fi, เน็ตมือถือ, เพื่อนอยู่บ้านอื่น)
+echo [✓] ปลอดภัยด้วย HTTPS ใบรับรองแท้ (กล้องมือถือ/ไอแพดเปิดได้ทันที 100%%)
+echo [✓] ไม่มีหน้าแจ้งเตือนความปลอดภัย หรือหน้าถาม IP มากวนใจ
+echo.
+echo ⏳ กรุณารอสักครู่ กำลังดึงลิงก์จาก Cloudflare (สังเกตบรรทัดที่มี https://....trycloudflare.com)...
+echo ======================================================================
 echo.
 
-"%~dp0cloudflared.exe" tunnel --url https://localhost:5173 --no-tls-verify
+"%~dp0cloudflared.exe" tunnel --url http://localhost:3000
 
 pause
