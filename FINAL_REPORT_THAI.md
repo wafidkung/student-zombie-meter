@@ -29,7 +29,7 @@
 
 ### 1.2 วัตถุประสงค์
 1. ประยุกต์ใช้ **OpenCV** ในการตรวจจับใบหน้าและสกัดฟีเจอร์ชีวมิติ (Biometric Features) ที่สัมพันธ์กับความล้า
-2. พัฒนากระบวนการ **Data Preprocessing ครบวงจร** (Missing Value Imputation, Duplicate Handling, One-Hot Encoding, StandardScaler, และ Stratified Split)
+2. พัฒนากระบวนการ **Data Preprocessing ครบวงจรทั้ง 6 มิติ** (Missing Value Imputation, Duplicate Handling, One-Hot Encoding, Stratified Train/Test Split, Feature Selection ด้วย SelectKBest, และ StandardScaler ป้องกัน Data Leakage)
 3. สร้างและเปรียบเทียบโมเดล Machine Learning ด้วย **Scikit-Learn** 3 โมเดล พร้อมปรับจูนพารามิเตอร์ด้วย **GridSearchCV** ตามหลักการในตำรา *Hands-On Machine Learning*
 4. วิเคราะห์ความสำคัญของฟีเจอร์ (Feature Importance) เพื่อความโปร่งใสและอธิบายผลลัพธ์ได้ (Explainable AI)
 5. พัฒนา **Web Application จำนวน 1 หน้าด้วย Streamlit** ที่รองรับการถ่ายภาพผ่านกล้องมือถือ/ไอแพด/คอมพิวเตอร์ และแสดงผลวินิจฉัยแบบเรียลไทม์
