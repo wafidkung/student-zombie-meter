@@ -3,6 +3,8 @@
 **โครงงานรายวิชา:** Machine Learning Application (100 คะแนนเต็ม)  
 **รหัสนักศึกษา:** 6710210312
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wafidkung/student-zombie-meter/blob/main/student_zombie_meter_colab.ipynb)
+
 ---
 
 ## 🚀 วิธีการรันระบบบนเครื่อง (One-Click Start)
