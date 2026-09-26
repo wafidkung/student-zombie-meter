@@ -2,17 +2,13 @@
 chcp 65001 > nul
 cls
 echo ======================================================================
-echo    STARTING PUBLIC HTTPS TUNNEL FOR STUDENT ZOMBIE METER
+echo    STARTING DIRECT CLOUDFLARE HTTPS TUNNEL (NO WARNING / NO IP PROMPT)
 echo ======================================================================
 echo.
-echo [INFO] กำลังเปิดท่อสัญญาณ HTTPS ด้วยชื่อโดเมนที่จำง่าย...
-echo.
-echo 🌐 ลิงก์สำหรับส่งให้อาจารย์และเพื่อนเปิดสแกนหน้า:
-echo 👉 https://student-zombie-meter.loca.lt
-echo.
-echo (หมายเหตุ: รัน run_app_bun.bat ในหน้าต่างอื่นก่อนเปิดไฟล์นี้นะครับ)
+echo [INFO] กำลังสร้างท่อส่งสัญญาณ HTTPS ผ่าน Cloudflare Tunnel...
+echo [INFO] ลิงก์ที่ได้จะเข้าหน้าเว็บได้ทันที 100%% โดยไม่มีหน้าถาม IP มากวนใจ!
 echo.
 
-npx localtunnel --port 5173 --subdomain student-zombie-meter
+"%~dp0cloudflared.exe" tunnel --url https://localhost:5173 --no-tls-verify
 
 pause
