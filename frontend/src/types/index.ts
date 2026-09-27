@@ -19,6 +19,18 @@ export interface TemporalFeaturesV2 {
   skin_texture_var: number;
 }
 
+export interface BiometricsDetail {
+  ear: number;
+  mar: number;
+  under_eye_darkness_ratio: number;
+  skin_texture_var?: number;
+  perclos_score?: number;
+  head_tilt_deg?: number;
+  eye_status: string;
+  mouth_status: string;
+  under_eye_status: string;
+}
+
 export interface PredictionResult {
   status: string;
   engine_version?: string;
@@ -35,6 +47,8 @@ export interface PredictionResult {
   inference_time_ms: number;
   model_name: string;
   benchmark_metrics?: any;
+  annotated_image_url?: string;
+  biometrics_detail?: BiometricsDetail;
 }
 
 export interface FatigueLog {

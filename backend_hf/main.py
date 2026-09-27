@@ -101,6 +101,8 @@ class PredictionV1Response(BaseModel):
     recommendations: List[str]
     inference_time_ms: float
     model_name: str
+    annotated_image_url: Optional[str] = None
+    biometrics_detail: Optional[Dict] = None
 
 class PredictionV2Response(BaseModel):
     status: str
@@ -116,6 +118,8 @@ class PredictionV2Response(BaseModel):
     inference_time_ms: float
     model_name: str
     benchmark_metrics: Optional[Dict] = None
+    annotated_image_url: Optional[str] = None
+    biometrics_detail: Optional[Dict] = None
 
 # ======================================================================
 # 🩺 DIAGNOSIS HELPERS
@@ -300,12 +304,19 @@ async def predict_from_image(file: UploadFile = File(...), lighting: Optional[st
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid image format: {str(e)}")
 
-    features, _ = extract_facial_features(img_bgr)
+    features, annotated_img = extract_facial_features(img_bgr)
     if features is None:
         raise HTTPException(
             status_code=422,
             detail="ไม่สามารถตรวจพบใบหน้าหรือดวงตาในภาพได้ กรุณาปรับแสงและมองตรงมาที่กล้อง"
         )
+
+    import base64
+    import cv2
+    annotated_b64 = None
+    if annotated_img is not None:
+        _, buffer = cv2.imencode('.jpg', annotated_img, [cv2.IMWRITE_JPEG_QUALITY, 85])
+        annotated_b64 = f"data:image/jpeg;base64,{base64.b64encode(buffer).decode('utf-8')}"
 
     feat_input = FeatureInputV1(
         eye_openness=features['eye_openness'],
@@ -318,11 +329,22 @@ async def predict_from_image(file: UploadFile = File(...), lighting: Optional[st
     )
 
     pred_res = predict_v1(feat_input)
+    pred_res.annotated_image_url = annotated_b64
+    pred_res.biometrics_detail = {
+        "ear": features['eye_aspect_ratio'],
+        "mar": features['mouth_aspect_ratio'],
+        "under_eye_darkness_ratio": features['under_eye_darkness_ratio'],
+        "skin_texture_var": features['skin_texture_var'],
+        "eye_status": "Open (ปกติ)" if features['eye_aspect_ratio'] >= 0.28 else "Drooping (ปรือ/ตก)",
+        "mouth_status": "Yawning (กำลังหาว)" if features['mouth_aspect_ratio'] >= 0.35 else "Normal (ปกติ)",
+        "under_eye_status": "Severe Dark Bags (คล้ำสะสม)" if features['under_eye_darkness_ratio'] < 0.75 else ("Moderate (เริ่มคล้ำ)" if features['under_eye_darkness_ratio'] < 0.88 else "Fresh (สดใส)")
+    }
     elapsed_ms = round((time.time() - start_time) * 1000, 2)
 
     return {
         "status": "success",
         "extracted_features": features,
+        "annotated_image_url": annotated_b64,
         "prediction": pred_res,
         "total_time_ms": elapsed_ms
     }

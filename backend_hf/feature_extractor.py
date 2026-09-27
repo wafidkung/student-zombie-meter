@@ -112,6 +112,14 @@ def extract_facial_features(image_input):
     laplacian_var = cv2.Laplacian(roi_gray, cv2.CV_64F).var()
     normalized_texture = min(100.0, laplacian_var) / 100.0
 
+    # Draw HUD Text Annotations
+    cv2.putText(annotated_img, "AI BIOMETRIC ANALYSIS | STUDENT ZOMBIE METER", (15, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 255, 200), 2)
+    cv2.putText(annotated_img, f"Face ROI: {fw}x{fh} | Texture: {normalized_texture:.2f}", (fx, max(20, fy - 10)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 200, 0), 1)
+    if valid_eyes:
+        cv2.putText(annotated_img, f"EAR: {ear_val:.2f} ({'OPEN' if ear_val >= 0.28 else 'DROOPING'})", (fx + valid_eyes[0][0], max(35, fy + valid_eyes[0][1] - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 255, 0), 1)
+    cv2.putText(annotated_img, f"Darkness: {under_eye_darkness_ratio:.2f}", (fx + 5, fy + int(fh * 0.55)), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 140, 255), 1)
+    cv2.putText(annotated_img, f"MAR: {mar_val:.2f} ({'YAWN' if mar_val > 0.35 else 'NORMAL'})", (fx + mouth_zone_x1, min(h - 10, fy + mouth_zone_y2 + 18)), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 100, 255), 1)
+
     features = {
         'eye_openness': float(eye_openness),
         'eye_aspect_ratio': float(ear_val),
